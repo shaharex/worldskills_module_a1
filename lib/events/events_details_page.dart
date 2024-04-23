@@ -1,85 +1,213 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-import 'package:flutter_application_2/events/events_detailed_page.dart';
 
 class EventsDetails extends StatelessWidget {
-  const EventsDetails({super.key});
+  // ignore: use_super_parameters
+  const EventsDetails({
+    Key? key,
+    required this.title,
+    required this.description,
+    required this.images,
+  }) : super(key: key);
+
+  final String title;
+  final String description;
+  final List<String> images;
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
           title: const Text('Events Details'),
           centerTitle: true,
+          leading: IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: const Icon(Icons.arrow_back_ios_new_rounded)),
         ),
-        body: Center(
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              const Text(
-                'Title',
-                style: TextStyle(fontSize: 24.0),
+              const SizedBox(
+                height: 50,
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  color: const Color.fromARGB(255, 226, 226, 226),
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: Text(
+                  textAlign: TextAlign.center,
+                  title,
+                  style: const TextStyle(fontSize: 20),
+                ),
               ),
               const Text(
-                'view counts',
-                style: TextStyle(fontSize: 20),
+                '2',
+                style: TextStyle(fontSize: 16),
               ),
-              const SizedBox(height: 50.0),
+              const SizedBox(height: 25.0),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Container(
-                    width: 100.0,
-                    height: 100.0,
-                    color: Colors.grey,
-                    child: IconButton(
-                      icon: Icon(null),
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (BuildContext builder) =>
-                                    EventsDetailed()));
-                      },
+                  InkWell(
+                    onTap: () {
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return Center(
+                              child: Material(
+                                color: Colors.transparent,
+                                child: Stack(
+                                  alignment: Alignment.center,
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () => Navigator.pop(context),
+                                      child: Container(
+                                        color: Colors.black.withOpacity(0.7),
+                                      ),
+                                    ),
+                                    InteractiveViewer(
+                                        child: SizedBox(
+                                      width: 333,
+                                      height: 333,
+                                      child: ClipRRect(
+                                        child: Image.asset(
+                                          'events_resources/images/${images[0]}',
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    )),
+                                  ],
+                                ),
+                              ),
+                            );
+                          });
+                    },
+                    child: SizedBox(
+                      width: 110,
+                      height: 110,
+                      child: ClipRRect(
+                        child: Image.asset(
+                          'events_resources/images/${images[0]}',
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     ),
                   ),
-                  Container(
-                    width: 100.0,
-                    height: 100.0,
-                    color: Colors.grey,
-                    child: IconButton(
-                      icon: Icon(null),
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (BuildContext builder) =>
-                                    EventsDetailed()));
-                      },
+                  InkWell(
+                    onTap: () {
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return Center(
+                              child: Material(
+                                color: Colors.transparent,
+                                child: Stack(
+                                  alignment: Alignment.center,
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () => Navigator.pop(context),
+                                      child: Container(
+                                        color: Colors.black.withOpacity(0.7),
+                                      ),
+                                    ),
+                                    InteractiveViewer(
+                                        child: SizedBox(
+                                      width: 333,
+                                      height: 333,
+                                      child: ClipRRect(
+                                        child: Image.asset(
+                                          'events_resources/images/${images[1]}',
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    )),
+                                  ],
+                                ),
+                              ),
+                            );
+                          });
+                    },
+                    child: SizedBox(
+                      width: 110,
+                      height: 110,
+                      child: ClipRRect(
+                        child: Image.asset(
+                          'events_resources/images/${images[1]}',
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     ),
                   ),
-                  Container(
-                    width: 100.0,
-                    height: 100.0,
-                    color: Colors.grey,
-                    child: IconButton(
-                      icon: Icon(null),
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (BuildContext builder) =>
-                                    EventsDetailed()));
-                      },
+                  InkWell(
+                    onTap: () {
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return Center(
+                              child: Material(
+                                color: Colors.transparent,
+                                child: Stack(
+                                  alignment: Alignment.center,
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () => Navigator.pop(context),
+                                      child: Container(
+                                        color: Colors.black.withOpacity(0.6),
+                                      ),
+                                    ),
+                                    InteractiveViewer(
+                                        child: SizedBox(
+                                      width: 333,
+                                      height: 333,
+                                      child: ClipRRect(
+                                        child: Image.asset(
+                                          'events_resources/images/${images[2]}',
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    )),
+                                  ],
+                                ),
+                              ),
+                            );
+                          });
+                    },
+                    child: SizedBox(
+                      width: 110,
+                      height: 110,
+                      child: ClipRRect(
+                        child: Image.asset(
+                          'events_resources/images/${images[2]}',
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     ),
                   ),
                 ],
               ),
-              const Padding(
-                padding: EdgeInsets.only(top: 100.0),
-                child: Text(
-                  'Text',
-                  style: TextStyle(fontSize: 20),
+              SizedBox(
+                height: 300,
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 20),
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 3),
+                      decoration: BoxDecoration(
+                        color: const Color.fromARGB(255, 226, 226, 226),
+                        borderRadius: BorderRadius.circular(3),
+                      ),
+                      child: Text(
+                        description,
+                        style: const TextStyle(fontSize: 16),
+                      ),
+                    ),
+                  ),
                 ),
               )
             ],
