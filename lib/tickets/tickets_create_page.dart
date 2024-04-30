@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'tickets_details_page.dart';
-
 class TicketsCreatePage extends StatefulWidget {
   const TicketsCreatePage({super.key});
 
@@ -10,9 +8,14 @@ class TicketsCreatePage extends StatefulWidget {
 }
 
 class _TicketsCreatePageState extends State<TicketsCreatePage> {
+  TextEditingController controller = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    // String openingOrClosing = '';
+    TextEditingController controllerName = TextEditingController();
+    TextEditingController controllerType = TextEditingController();
+    String? selectedCeremony;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Ticket Create'),
@@ -22,17 +25,21 @@ class _TicketsCreatePageState extends State<TicketsCreatePage> {
           padding: const EdgeInsets.only(left: 30, right: 30),
           child: Column(
             children: [
-              DropdownMenu(
-                hintText: 'Select ceremony',
-                onSelected: (value) {},
-                dropdownMenuEntries: const [
-                  DropdownMenuEntry(
-                      value: Text('Opening'), label: 'Opening Ceremony'),
-                  DropdownMenuEntry(
-                      value: Text('Closing'), label: 'Closing Ceremony'),
-                ],
-                width: 315,
-                inputDecorationTheme: const InputDecorationTheme(
+              DropdownButtonFormField(
+                onChanged: (String? newValue) {
+                  setState(() {
+                    selectedCeremony = newValue;
+                    print('this is a $selectedCeremony');
+                    print(selectedCeremony);
+                  });
+                },
+                hint: Text('Select ceremony'),
+                value: selectedCeremony,
+                items: ['Opening Ceremony', 'Closing Ceremony']
+                    .map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem(value: value, child: Text(value));
+                }).toList(),
+                decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   isDense: true,
                   contentPadding: EdgeInsets.all(10),
@@ -41,8 +48,9 @@ class _TicketsCreatePageState extends State<TicketsCreatePage> {
               const SizedBox(
                 height: 10,
               ),
-              const TextField(
-                decoration: InputDecoration(
+              TextField(
+                controller: controllerName,
+                decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: 'Input your name',
                   isDense: true,
@@ -97,19 +105,20 @@ class _TicketsCreatePageState extends State<TicketsCreatePage> {
                 height: 40,
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: ((BuildContext context) {
-                      return TicketDetailsPage();
-                    })));
+                    Navigator.pop(context, [
+                      controllerName.text,
+                      selectedCeremony,
+                    ]);
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color.fromARGB(255, 253, 250, 219),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5),
                       side: const BorderSide(
-                          color: Colors.black,
-                          width: 0.5,
-                          style: BorderStyle.solid),
+                        color: Colors.black,
+                        width: 0.5,
+                        style: BorderStyle.solid,
+                      ),
                     ),
                   ),
                   child: const Text(

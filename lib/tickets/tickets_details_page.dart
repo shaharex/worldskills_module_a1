@@ -1,13 +1,18 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 
-class TicketDetailsPage extends StatefulWidget {
-  const TicketDetailsPage({super.key});
+class TicketDetailsPage extends StatelessWidget {
+  const TicketDetailsPage({
+    Key? key,
+    required this.ceremonyType,
+    required this.name,
+    required this.picture,
+  }) : super(key: key);
 
-  @override
-  State<TicketDetailsPage> createState() => _TicketDetailsPageState();
-}
+  final String ceremonyType;
+  final String name;
+  final String picture;
 
-class _TicketDetailsPageState extends State<TicketDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,34 +35,35 @@ class _TicketDetailsPageState extends State<TicketDetailsPage> {
                     width: 280,
                     height: 150,
                     color: const Color.fromARGB(255, 230, 230, 230),
-                    child: const Text(
-                      'Ticket Picture',
+                    child: Text(
+                      picture,
                       style: TextStyle(fontSize: 18),
                     ),
                   ),
-                  const Row(
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         width: 5,
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Ticket type: xxxxx',
+                            'Ticket type: $ceremonyType',
                             style: TextStyle(fontSize: 18),
                           ),
                           Text(
-                            'Audience name: xxxxxx',
+                            'Audience name: xxxxx',
                             style: TextStyle(fontSize: 18),
+                            overflow: TextOverflow.ellipsis,
                           ),
                           Text(
                             'Time: xxxx-xx-xx xx:xx',
                             style: TextStyle(fontSize: 18),
                           ),
                           Text(
-                            'Seat: Somewhere',
+                            'Seat: $name',
                             style: TextStyle(fontSize: 18),
                           ),
                         ],

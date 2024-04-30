@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_2/tickets/tickets_details_page.dart';
 
 import 'tickets_create_page.dart';
 
@@ -10,6 +11,18 @@ class TicketsPage extends StatefulWidget {
 }
 
 class _TicketsPageState extends State<TicketsPage> {
+  final List<String> namesClosing = [
+    'Jack',
+    'Rose',
+  ];
+
+  final List<String> namesOpening = [
+    'Jack',
+    'Rose',
+  ];
+
+  List<String> ceremonyTypes = ['Opening', 'Closing'];
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -21,12 +34,28 @@ class _TicketsPageState extends State<TicketsPage> {
               SizedBox(
                 width: 300,
                 child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: ((BuildContext context) =>
-                                TicketsCreatePage())));
+                  onPressed: () async {
+                    final newItem = await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => TicketsCreatePage()),
+                    );
+                    if (newItem is List) {
+                      String name = newItem[0];
+
+                      String type = newItem[1];
+
+                      // Check the type and add the name to the corresponding list
+                      if (type == 'Opening') {
+                        setState(() {
+                          namesOpening.add(name);
+                        });
+                      } else if (type == 'Closing') {
+                        setState(() {
+                          namesClosing.add(name);
+                        });
+                      }
+                    }
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color.fromARGB(255, 253, 250, 219),
@@ -51,59 +80,115 @@ class _TicketsPageState extends State<TicketsPage> {
             ],
           ),
           SingleChildScrollView(
-            child: Column(
-              children: [
-                const SizedBox(
-                  height: 20,
-                ),
-                ListView.separated(
-                  padding: const EdgeInsets.only(left: 35, right: 35),
-                  shrinkWrap: true,
-                  itemCount: 4,
-                  itemBuilder: (context, int index) {
-                    return Column(
-                      children: [
-                        const Text(
-                          'Opening Ceremony Tickets',
-                          style: TextStyle(fontSize: 20),
-                        ),
-                        ListView.separated(
-                          shrinkWrap: true,
-                          itemCount: 2,
-                          itemBuilder: (context, int index) {
-                            return const ListTile(
-                              title: Align(
-                                alignment: Alignment.topLeft,
-                                child: Text(
-                                  'Jack',
-                                  style: TextStyle(fontSize: 20),
-                                ),
-                              ),
-                              tileColor: Color.fromARGB(255, 230, 230, 230),
-                              contentPadding: EdgeInsets.only(
-                                  left: 3, top: 1, bottom: 1, right: 3),
-                              subtitle: Align(
-                                alignment: Alignment.bottomRight,
-                                child: Text('A6 Row7 Column9'),
-                              ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+              child: Column(
+                children: [
+                  // Opening Ceremony
+                  Text(
+                    '${ceremonyTypes[0]} Ceremony Tickets',
+                    style: const TextStyle(fontSize: 20),
+                  ),
+
+                  // list of opening ceremony participants
+                  ListView.separated(
+                    shrinkWrap: true,
+                    itemCount: namesOpening.length,
+                    itemBuilder: (context, int index) {
+                      return Dismissible(
+                        key: Key(namesOpening[index]),
+                        child: ListTile(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => TicketDetailsPage(
+                                        ceremonyType: ceremonyTypes[index],
+                                        name: namesOpening[index],
+                                        picture: 'no data',
+                                      )),
                             );
                           },
-                          separatorBuilder: (context, int index) {
-                            return const SizedBox(
-                              height: 5,
+                          title: Align(
+                            alignment: Alignment.topLeft,
+                            child: Text(
+                              namesOpening[index],
+                              style: const TextStyle(fontSize: 20),
+                            ),
+                          ),
+                          tileColor: const Color.fromARGB(255, 230, 230, 230),
+                          contentPadding: const EdgeInsets.only(
+                              left: 3, top: 1, bottom: 1, right: 3),
+                          subtitle: const Align(
+                            alignment: Alignment.bottomRight,
+                            child: Text('A6 Row7 Column9'),
+                          ),
+                        ),
+                      );
+                    },
+                    separatorBuilder: (context, int index) {
+                      return const SizedBox(
+                        height: 5,
+                      );
+                    },
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+
+                  // closing ceremony
+                  Text(
+                    '${ceremonyTypes[1]} Ceremony Tickets',
+                    style: const TextStyle(fontSize: 20),
+                  ),
+
+                  // list of closing ceremony participants
+                  ListView.separated(
+                    shrinkWrap: true,
+                    itemCount: namesClosing.length,
+                    itemBuilder: (context, int index) {
+                      return Dismissible(
+                        onDismissed: (direction) {
+                          namesClosing.remove(namesClosing[index]);
+                        },
+                        key: Key(namesClosing[index]),
+                        child: ListTile(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => TicketDetailsPage(
+                                        ceremonyType: ceremonyTypes[index],
+                                        name: namesClosing[index],
+                                        picture: 'no data',
+                                      )),
                             );
                           },
+                          title: Align(
+                            alignment: Alignment.topLeft,
+                            child: Text(
+                              namesClosing[index],
+                              style: const TextStyle(fontSize: 20),
+                            ),
+                          ),
+                          tileColor: const Color.fromARGB(255, 230, 230, 230),
+                          contentPadding: const EdgeInsets.only(
+                              left: 3, top: 1, bottom: 1, right: 3),
+                          subtitle: const Align(
+                            alignment: Alignment.bottomRight,
+                            child: Text('A6 Row7 Column9'),
+                          ),
                         ),
-                      ],
-                    );
-                  },
-                  separatorBuilder: (context, int index) {
-                    return const SizedBox(
-                      height: 40,
-                    );
-                  },
-                ),
-              ],
+                      );
+                    },
+                    separatorBuilder: (context, int index) {
+                      return const SizedBox(
+                        height: 5,
+                      );
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         ],
