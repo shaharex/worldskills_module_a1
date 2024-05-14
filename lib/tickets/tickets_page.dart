@@ -46,11 +46,11 @@ class _TicketsPageState extends State<TicketsPage> {
                       String type = newItem[1];
 
                       // Check the type and add the name to the corresponding list
-                      if (type == 'Opening') {
+                      if (type == 'Opening Ceremony') {
                         setState(() {
                           namesOpening.add(name);
                         });
-                      } else if (type == 'Closing') {
+                      } else if (type == 'Closing Ceremony') {
                         setState(() {
                           namesClosing.add(name);
                         });

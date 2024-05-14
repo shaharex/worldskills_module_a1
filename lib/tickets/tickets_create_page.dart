@@ -15,6 +15,7 @@ class _TicketsCreatePageState extends State<TicketsCreatePage> {
     TextEditingController controllerName = TextEditingController();
     TextEditingController controllerType = TextEditingController();
     String? selectedCeremony;
+    bool isCeremonySelected = false;
 
     return Scaffold(
       appBar: AppBar(
@@ -25,21 +26,20 @@ class _TicketsCreatePageState extends State<TicketsCreatePage> {
           padding: const EdgeInsets.only(left: 30, right: 30),
           child: Column(
             children: [
-              DropdownButtonFormField(
-                onChanged: (String? newValue) {
-                  setState(() {
-                    selectedCeremony = newValue;
-                    print('this is a $selectedCeremony');
-                    print(selectedCeremony);
-                  });
+              DropdownMenu(
+                hintText: 'Select Ceremony',
+                dropdownMenuEntries: [
+                  DropdownMenuEntry(
+                      value: 'Closing Ceremony', label: 'Closing Ceremony'),
+                  DropdownMenuEntry(
+                      value: 'Opening Ceremony', label: 'Opening Ceremony')
+                ],
+                onSelected: (value) {
+                  selectedCeremony = value;
                 },
-                hint: Text('Select ceremony'),
-                value: selectedCeremony,
-                items: ['Opening Ceremony', 'Closing Ceremony']
-                    .map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem(value: value, child: Text(value));
-                }).toList(),
-                decoration: const InputDecoration(
+                width: 315,
+                controller: controllerType,
+                inputDecorationTheme: InputDecorationTheme(
                   border: OutlineInputBorder(),
                   isDense: true,
                   contentPadding: EdgeInsets.all(10),
@@ -63,7 +63,9 @@ class _TicketsCreatePageState extends State<TicketsCreatePage> {
               SizedBox(
                 width: 315,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Text('hello');
+                  },
                   style: ElevatedButton.styleFrom(
                     alignment: Alignment.centerLeft,
                     backgroundColor: const Color.fromARGB(238, 232, 245, 255),
